@@ -15,7 +15,8 @@
       <md-list v-else-if="Object.keys(organizations).length > 0"
                class="md-elevation-2">
         <md-list-item v-for="(organization, id) in organizations"
-                      :key="`organization_${id}`">
+                      :key="`organization_${id}`"
+                      @click="goToDraws(id)">
           <div class="md-list-item-text">
             <span>{{ organization.name }}</span>
           </div>
@@ -73,6 +74,9 @@ export default {
     },
     add() {
       this.$router.push({ name: 'organizations-edit' })
+    },
+    goToDraws(organizationId) {
+      this.$router.push({ name: 'draws', params: { organizationId: organizationId } })
     }
   }
 }

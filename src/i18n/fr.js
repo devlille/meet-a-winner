@@ -26,7 +26,7 @@ export default {
     }
   },
   ORGANIZATIONS: {
-    LABEL: 'Aucune organisation | Votre organisation | Vos {0} organizations',
+    LABEL: 'Aucune organisation | Votre organisation | Vos organisations',
     DESCRIPTION: 'Une organisation représente une société, une association, un groupe, une communauté et permet le regroupement d\'un ensemble de tirages au sort.',
     ERROR: 'Echec lors de la récupération de vos organisations'
   },
@@ -39,5 +39,10 @@ export default {
       LABEL: 'Nom',
       EXAMPLE: 'e.g. GDG Lille, Google'
     }
-  }
+  },
+  DRAWS: {
+    LABEL: 'Aucun tirage au sort | Votre tirage au sort | Vos tirages au sort',
+    DESCRIPTION: 'Une organisation représente une société, une association, un groupe, une communauté et permet le regroupement d\'un ensemble de tirages au sort.',
+    ERROR: 'Echec lors de la récupération de vos tirages au sort'
+  },
 }

@@ -2,10 +2,7 @@
   <div class="organizations-edit">
     <form novalidate>
       <h2>
-        <md-button class="md-icon-button"
-                   @click="cancel">
-          <md-icon>arrow_back</md-icon>
-        </md-button>
+        <back></back>
         {{ $t('ORGANIZATIONS_EDIT.LABEL') }}
       </h2>
       <md-card>
@@ -39,12 +36,13 @@
 </template>
 
 <script>
-  import firebase from 'firebase/app'
   import {required} from 'vuelidate/lib/validators'
-  import OrganizationsService from "../../services/OrganizationsService";
+  import OrganizationsService from '@/services/OrganizationsService';
+  import Back from '@/components/back/Back';
 
   export default {
     name: 'organizations-edit',
+    components: {Back},
     data() {
       return {
         isSaving: false,

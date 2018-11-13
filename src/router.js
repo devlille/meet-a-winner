@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Winners from './views/winners/Winners.vue'
-import Events from './views/events/Events.vue'
+import Draws from './views/draws/Draws.vue'
 import Organizations from './views/organizations/Organizations.vue'
 import OrganizationsEdit from './views/organizations/OrganizationsEdit.vue'
 import SignIn from './views/authentification/SignIn.vue'
@@ -42,9 +42,9 @@ const router = new Router({
       beforeEnter: authenticating
     },
     {
-      path: '/events',
-      name: 'events',
-      component: Events,
+      path: '/draws/:organizationId',
+      name: 'draws',
+      component: Draws,
       beforeEnter: authenticating
     },
     {

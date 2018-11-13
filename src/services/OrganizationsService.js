@@ -14,6 +14,20 @@ class OrganizationsService {
       })
   }
 
+  findOneForCurrentUser(organizationId) {
+    return firebase.firestore()
+      .collection('organizations')
+      .doc(organizationId)
+      .get()
+      .then(organization => {
+        if(!organization.exists) {
+          throw new Error(`Organization ${organizationId} doesn't exist !!`)
+        }
+
+        return organization.data()
+      })
+  }
+
   create(organization) {
     organization.createdBy = firebase.auth().currentUser.uid
     organization.createdAt = new Date().getTime()
