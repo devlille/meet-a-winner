@@ -1,25 +1,64 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Winners from './views/winners/Winners.vue'
+import Events from './views/events/Events.vue'
+import Organizations from './views/organizations/Organizations.vue'
+import OrganizationsEdit from './views/organizations/OrganizationsEdit.vue'
+import SignIn from './views/authentification/SignIn.vue'
+
+import firebase from 'firebase/app'
 
 Vue.use(Router)
 
-export default new Router({
+const authenticating = (to, from, next) => {
+  firebase.auth()
+    .onAuthStateChanged(user => {
+      if(user === null) {
+        next({ name: 'sign-in' })
+      } else {
+        next()
+      }
+    });
+}
+
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      redirect: '/organizations',
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/organizations',
+      name: 'organizations',
+      component: Organizations,
+      beforeEnter: authenticating
+    },
+    {
+      path: '/organizations/edit',
+      name: 'organizations-edit',
+      component: OrganizationsEdit,
+      beforeEnter: authenticating
+    },
+    {
+      path: '/events',
+      name: 'events',
+      component: Events,
+      beforeEnter: authenticating
+    },
+    {
+      path: '/winners',
+      name: 'winners',
+      component: Winners,
+      beforeEnter: authenticating
+    },
+    {
+      path: '/sign-in',
+      name: 'sign-in',
+      component: SignIn
     }
   ]
 })
+
+export default router;
