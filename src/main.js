@@ -17,6 +17,9 @@ import VueLidate from 'vuelidate'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/functions';
+
+import store from './stores';
 
 Vue.config.productionTip = false
 
@@ -38,17 +41,29 @@ Vue.use(VueLidate)
 
 // Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyCbKMjT30hOQMTvTBAWHAcLuXiuCsq0pAI",
-  authDomain: "meet-a-winner.firebaseapp.com",
-  databaseURL: "https://meet-a-winner.firebaseio.com",
-  projectId: "meet-a-winner",
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+  authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
 }
 
 firebase.initializeApp(firebaseConfig)
 firebase.firestore().settings({ timestampsInSnapshots: true })
 
+if(process.env.NODE_ENV === 'production') {
+  // Google Analytics only on Prod
+  document.write(
+    '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-124200391-4"></script>' +
+    '<script>' +
+    '  window.dataLayer = window.dataLayer || [];' +
+    '  function gtag(){dataLayer.push(arguments);}' +
+    '  gtag(\'js\', new Date());' +
+    '  gtag(\'config\', \'UA-124200391-4\');' +
+    '</script>');
+}
+
 new Vue({
   router,
+  store,
   i18n,
   render: h => h(App)
 }).$mount('#app')

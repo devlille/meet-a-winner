@@ -1,7 +1,13 @@
 <template>
-  <span class="md-title app-brand">
-    <strong>{{ $t('APP.NAME') }}</strong>
-  </span>
+  <div class="app-brand">
+    <router-link :to="{ name: 'organizations' }"
+                 class="link">
+      <img src="../../assets/logo.svg"
+           alt=""/>
+      <strong>{{ $t('APP.NAME') }}</strong>
+      <span>{{ $t('APP.COMPANY') }}</span>
+    </router-link>
+  </div>
 </template>
 
 <script>
@@ -12,12 +18,42 @@ export default {
 
 <style scoped lang="scss">
   .app-brand {
-    strong {
-      text-transform: uppercase;
-    }
 
-    span {
-      color: rgba(0, 0, 0, 0.5)
+    .link {
+      display: grid;
+      grid-column-gap: 10px;
+
+      img {
+        grid-column: 1;
+        grid-row: 1 / 3;
+        align-self: center;
+
+        height: 30px;
+        max-width: 100%;
+
+      }
+
+      strong {
+        grid-column: 2;
+        grid-row: 1;
+        align-self: center;
+
+        text-transform: uppercase;
+        color: black;
+        font-size: 20px;
+        line-height: 20px;
+      }
+
+      span {
+        grid-column: 2;
+        grid-row: 2;
+        align-self: center;
+
+        font-size: 11px;
+        line-height: 11px;
+        color: #424242;
+        font-family: 'Sedgwick Ave', cursive;
+      }
     }
   }
 </style>

@@ -1,11 +1,10 @@
 <template>
-  <div class="organizations">
-    <div class="content">
-      <h2>
-        <span v-if="isLoading">{{ $t('ACTIONS.IS_LOADING') }}</span>
-        <span v-else>{{ $tc('ORGANIZATIONS.LABEL', Object.keys(organizations).length) }}</span>
-      </h2>
-      <h4>{{ $t('ORGANIZATIONS.DESCRIPTION') }}</h4>
+  <div class="organizations mw-basic-layout">
+    <div class="mw-content">
+      <app-title :is-loading="isLoading"
+                 :with-back-btn="false"
+                 :title="$tc('ORGANIZATIONS.LABEL', Object.keys(organizations).length)"
+                 :description="$t('ORGANIZATIONS.DESCRIPTION')" />
 
       <md-progress-bar v-if="isLoading"
                        class="md-accent"
@@ -24,16 +23,6 @@
       </md-list>
     </div>
 
-    <md-snackbar md-position="left"
-                 :md-active.sync="showSnackbar"
-                 md-persistent>
-      <span>{{ $t('ORGANIZATIONS.ERROR') }}</span>
-      <md-button class="md-primary"
-                 @click="getOrganizations">
-        {{ $t('ACTIONS.RETRY') }}
-      </md-button>
-    </md-snackbar>
-
     <md-button class="md-fab md-accent add-btn"
                @click="add">
       <md-icon>add</md-icon>
@@ -43,12 +32,13 @@
 
 <script>
 import OrganizationsService from '@/services/OrganizationsService';
+import AppTitle from '@/components/app-title/AppTitle';
 
 export default {
   name: 'organizations',
+  components: {AppTitle},
   data() {
     return {
-      showSnackbar: false,
       isLoading: false,
       organizations: {}
     }
@@ -58,18 +48,24 @@ export default {
   },
   methods: {
     getOrganizations() {
-      this.isLoading = true
-      this.showSnackbar = false
+      this.isLoading = true;
 
       OrganizationsService.findAllForCurrentUser()
         .then(organizations => {
-          this.isLoading = false
-          this.organizations = organizations
+          this.isLoading = false;
+          this.organizations = organizations;
         })
         .catch(err => {
-          console.error(err)
-          this.isLoading = false
-          this.showSnackbar = true
+          console.error(err);
+          this.isLoading = false;
+          this.$store.commit('notification/setNotification', {
+            active: true,
+            message: this.$t('ORGANIZATIONS.ERROR'),
+            action: {
+              label: this.$t('ACTIONS.RETRY'),
+              handler: () => this.getOrganizations()
+            }
+          });
         })
     },
     add() {
@@ -84,19 +80,6 @@ export default {
 
 <style scoped lang="scss">
   .organizations {
-    display: grid;
-    grid-template-columns: 20% 60% 20%;
-
-    .content {
-      grid-column: 2;
-      padding: 20px 0;
-
-      h4 {
-        font-weight: normal;
-        color: rgba(0, 0, 0, 0.5);
-      }
-    }
-
     .add-btn {
       position: absolute;
       bottom: 20px;

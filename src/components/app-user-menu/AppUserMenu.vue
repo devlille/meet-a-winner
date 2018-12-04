@@ -1,7 +1,7 @@
 <template>
     <md-menu v-if="user !== null"
              md-align-trigger
-             class="user-menu">
+             class="app-user-menu">
         <md-button md-menu-trigger
                    class="md-icon-button"
                    :disabled="isLoading">
@@ -24,7 +24,7 @@
   import firebase from 'firebase/app'
 
   export default {
-    name: 'UserMenu',
+    name: 'AppUserMenu',
     data() {
       return {
         isLoading: true,
@@ -50,7 +50,7 @@
 </script>
 
 <style scoped lang="scss">
-    .user-menu {
+    .app-user-menu {
         .photo {
             height: 24px;
             max-width: 100%;

@@ -6,3 +6,19 @@
 ));
 
 @import "~vue-material/dist/theme/all";
+
+.mw-basic-layout {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  padding: 10px 0;
+
+  .mw-content {
+    grid-column: 2;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .mw-basic-layout {
+    grid-template-columns: 5% 90% 5%;
+  }
+}

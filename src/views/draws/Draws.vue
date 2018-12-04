@@ -1,13 +1,9 @@
 <template>
-  <div class="draws">
-    <div class="content">
-      <h2>
-        <back></back>
-        <span class="organization">{{ organization.name }} &nbsp;/&nbsp;</span>
-        <span v-if="isLoading">{{ $t('ACTIONS.IS_LOADING') }}</span>
-        <span v-else>{{ $tc('DRAWS.LABEL', Object.keys(draws).length) }}</span>
-      </h2>
-      <h4>{{ $t('DRAWS.DESCRIPTION') }}</h4>
+  <div class="draws mw-basic-layout">
+    <div class="mw-content">
+      <app-title :organization="organization"
+                 :is-loading="isLoading"
+                 :title="$tc('DRAWS.LABEL', Object.keys(draws).length)" />
 
       <md-progress-bar v-if="isLoading"
                        class="md-accent"
@@ -25,23 +21,14 @@
       </md-list>
     </div>
 
-    <md-snackbar md-position="left"
-                 :md-active.sync="showSnackbar"
-                 md-persistent>
-      <span>{{ $t('DRAWS.ERROR') }}</span>
-      <md-button class="md-primary"
-                 @click="getDraws">
-        {{ $t('ACTIONS.RETRY') }}
-      </md-button>
-    </md-snackbar>
-
     <md-speed-dial class="add-btn">
       <md-speed-dial-target>
         <md-icon>add</md-icon>
       </md-speed-dial-target>
 
       <md-speed-dial-content>
-        <md-button class="md-icon-button">
+        <md-button class="md-icon-button"
+                   @click="addTwitterDraw">
           <img src="../../assets/logo-twitter.svg"
                alt=""/>
         </md-button>
@@ -58,14 +45,13 @@
 <script>
 import DrawsService from '@/services/DrawsService';
 import OrganizationsService from '@/services/OrganizationsService';
-import Back from '@/components/back/Back';
+import AppTitle from '@/components/app-title/AppTitle';
 
 export default {
   name: 'draws',
-  components: {Back},
+  components: {AppTitle},
   data() {
     return {
-      showSnackbar: false,
       isLoading: false,
       organization: {},
       draws: {}
@@ -75,8 +61,8 @@ export default {
     OrganizationsService.findOneForCurrentUser(to.params.organizationId)
       .then(organization => next(vm => vm.organization = organization))
       .catch(err => {
-        console.error(err)
-        next({ name: 'organizations' })
+        console.error(err);
+        next({ name: 'organizations' });
       })
   },
   created() {
@@ -84,22 +70,28 @@ export default {
   },
   methods: {
     getDraws() {
-      this.isLoading = true
-      this.showSnackbar = false
+      this.isLoading = true;
 
       DrawsService.findAllForOrganization(this.$route.params.organizationId)
         .then(draws => {
-          this.isLoading = false
-          this.draws = draws
+          this.isLoading = false;
+          this.draws = draws;
         })
         .catch(err => {
-          console.error(err)
-          this.isLoading = false
-          this.showSnackbar = true
+          console.error(err);
+          this.isLoading = false;
+          this.$store.commit('notification/setNotification', {
+            active: true,
+            message: this.$t('DRAWS.ERROR'),
+            action: {
+              label: this.$t('ACTIONS.RETRY'),
+              handler: () => this.getOrganizations()
+            }
+          });
         })
     },
-    add() {
-      this.$router.push({ name: 'draws-edit' })
+    addTwitterDraw() {
+      this.$router.push({ name: 'draws-twitter-edit', params: { organizationId: this.$route.params.organizationId } });
     }
   }
 }
@@ -107,28 +99,6 @@ export default {
 
 <style scoped lang="scss">
   .draws {
-    display: grid;
-    grid-template-columns: 20% 60% 20%;
-
-    .content {
-      grid-column: 2;
-      padding: 20px 0;
-
-      h2 {
-        display: flex;
-        align-items: center;
-
-        .organization {
-          color: rgba(0, 0, 0, 0.5);
-        }
-      }
-
-      h4 {
-        font-weight: normal;
-        color: rgba(0, 0, 0, 0.5);
-      }
-    }
-
     .add-btn {
       position: absolute;
       bottom: 20px;

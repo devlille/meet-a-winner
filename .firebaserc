@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "meet-a-winner",
+    "staging": "meet-a-winner-staging"
+  }
+}
