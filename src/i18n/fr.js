@@ -9,7 +9,8 @@ export default {
     VALID: 'Valider',
     RETRY: 'Réessayer',
     SEARCH: 'Rechercher',
-    IS_LOADING: 'Chargement en cours ...'
+    IS_LOADING: 'Chargement en cours ...',
+    DRAW_LOTS: 'Tirer au sort'
   },
   FORMS: {
     REQUIRED: 'Champ obligatoire'
@@ -17,11 +18,18 @@ export default {
   USER_MENU: {
     SIGN_OUT: 'Se déconnecter'
   },
-  APP_GITHUB_MENU: {
-    LABEL: 'Github',
-    HOMEPAGE: 'Aller sur la page du projet',
-    FEAT_REQUEST: 'Proposer une fonctionnalité',
-    BUG_REQUEST: 'Remonter un bug'
+  APP_MORE_MENU: {
+    CODE: {
+      LABEL: 'Le projet',
+      HOMEPAGE: 'Fork me on Github',
+      FEAT_REQUEST: 'Proposer une fonctionnalité',
+      BUG_REQUEST: 'Remonter un bug'
+    },
+    SOCIAL: {
+      LABEL: 'Nous suivre',
+      TWITTER: 'Twitter',
+      LINKEDIN: 'LinkedIn',
+    }
   },
   GOOGLE_SIGN_IN: {
     LABEL: 'Se connecter avec Google'
@@ -35,11 +43,11 @@ export default {
   ORGANIZATIONS: {
     LABEL: 'Aucune organisation | Votre organisation | Vos organisations',
     DESCRIPTION: 'Une organisation représente une société, une association, un groupe, une communauté et permet le regroupement d\'un ensemble de tirages au sort.',
-    ERROR: 'Echec lors de la récupération de vos organisations'
+    ERROR: 'Echec lors de la récupération.'
   },
   ORGANIZATIONS_EDIT: {
     LABEL: 'Créer une organisation',
-    ERROR: 'Echec lors de l\'enregistrement de l\'organisation.'
+    ERROR: 'Echec lors de l\'enregistrement.'
   },
   ORGANIZATION: {
     NAME: {
@@ -48,24 +56,33 @@ export default {
     }
   },
   DRAWS: {
-    LABEL: 'Aucun tirage au sort | Votre tirage au sort | Vos tirages au sort',
-    DESCRIPTION: 'Il en existe plusieurs types, via Twitter, via Meetup ou via un formulaire.',
-    ERROR: 'Echec lors de la récupération de vos tirages au sort'
+    LABEL: 'Aucune tirage au sort | Votre tirage au sort | Vos tirages au sort',
+    ERROR: 'Echec lors de la récupération.',
+    TWITTER: '{0} Twitter'
   },
   DRAWS_TWITTER_EDIT: {
     LABEL: 'Créer un tirage au sort via Twitter',
-    DESCRIPTION: 'Le tirage au sort s\'effectue sur les retweets du tweet sélectionné. Ainsi, vous pouvez faire jouer votre visibilité sur Twitter.',
     ERROR: {
-      SAVING: 'Echec lors de l\'enregistrement du tirage au sort.',
+      SAVING: 'Echec lors de l\'enregistrement.',
       GETTING_TWEETS: 'Echec lors de la récupération des tweets.'
     },
-    SEARCH: {
-      QUERY: {
-        LABEL: 'Critère(s)',
-        EXAMPLE: 'e.g. @GDGLille, #DevfestLille'
-      },
-      RETWEETS: 'Inclure les retweets ?'
-    },
     RESULTS: 'Aucun tweet trouvé | {0} tweet trouvé | {0} tweets trouvés'
+  },
+  DRAW: {
+    NAME: {
+      LABEL: 'Nom',
+      EXAMPLE: 'e.g. GDG Lille, Google'
+    },
+    SEARCH_PARAMS: {
+      QUERY: {
+        LABEL: 'Votre recherche',
+        EXAMPLE: 'e.g. from:GDGLille, #DevfestLille'
+      },
+    },
+    CREATED_AT: 'Créé',
+    STATUS: {
+      OPENED: 'Ouvert',
+      CLOSED: 'Fermé'
+    }
   },
 }

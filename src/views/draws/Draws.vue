@@ -2,7 +2,6 @@
   <div class="draws mw-basic-layout">
     <div class="mw-content">
       <app-title :organization="organization"
-                 :is-loading="isLoading"
                  :title="$tc('DRAWS.LABEL', Object.keys(draws).length)" />
 
       <md-progress-bar v-if="isLoading"
@@ -10,15 +9,36 @@
                        md-mode="indeterminate">
       </md-progress-bar>
 
-      <md-list v-else-if="Object.keys(draws).length > 0"
-               class="md-elevation-2">
-        <md-list-item v-for="(draw, id) in draws"
-                      :key="`draw_${id}`">
-          <div class="md-list-item-text">
-            <span>{{ draw.name }}</span>
-          </div>
-        </md-list-item>
-      </md-list>
+      <md-card v-else>
+        <md-tabs>
+          <!-- TWITTER -->
+          <md-tab id="tab-draws-twitter"
+                  :md-label="$t('DRAWS.TWITTER', [Object.keys(drawsByType.twitter).length])">
+
+            <md-list class="md-dense md-double-line">
+              <md-list-item v-for="(draw, id) in drawsByType.twitter"
+                            :key="`draw_${id}`">
+                <span class="md-list-item-text">
+                  <span>{{ draw.name }}</span>
+                  <span>
+                    <strong :style="{color: draw.status === 'OPENED' ? '#4caf50' : 'inherit'}">{{ $t(`DRAW.STATUS.${draw.status}`) }}</strong>
+                    &nbsp;-&nbsp;
+                    {{ $t('DRAW.CREATED_AT') }} {{ draw.createdAt | date('v') }}
+                  </span>
+                </span>
+
+                <md-button class="md-list-action"
+                           :disabled="loadingDraws.indexOf(id) !== -1"
+                           @click="drawLotsOnTwitter(draw, id)">
+                  <span v-if="loadingDraws.indexOf(id) !== -1">{{ $t('ACTIONS.IS_LOADING') }}</span>
+                  <span v-else>{{ $t('ACTIONS.DRAW_LOTS') }}</span>
+                </md-button>
+              </md-list-item>
+            </md-list>
+
+          </md-tab>
+        </md-tabs>
+      </md-card>
     </div>
 
     <md-speed-dial class="add-btn">
@@ -43,9 +63,9 @@
 </template>
 
 <script>
-import DrawsService from '@/services/DrawsService';
 import OrganizationsService from '@/services/OrganizationsService';
 import AppTitle from '@/components/app-title/AppTitle';
+import DrawsService from '@/services/DrawsService';
 
 export default {
   name: 'draws',
@@ -54,7 +74,19 @@ export default {
     return {
       isLoading: false,
       organization: {},
-      draws: {}
+      draws: {},
+      loadingDraws: []
+    }
+  },
+  computed: {
+    drawsByType() {
+      const drawsByType = {};
+
+      drawsByType.twitter = Object.keys(this.draws)
+        .filter(drawId => this.draws[drawId].type === 'TWITTER')
+        .map(drawId => this.draws[drawId]);
+
+      return drawsByType;
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -66,7 +98,7 @@ export default {
       })
   },
   created() {
-    this.getDraws()
+    this.getDraws();
   },
   methods: {
     getDraws() {
@@ -85,20 +117,29 @@ export default {
             message: this.$t('DRAWS.ERROR'),
             action: {
               label: this.$t('ACTIONS.RETRY'),
-              handler: () => this.getOrganizations()
+              handler: () => this.getDraws()
             }
           });
-        })
+        });
     },
     addTwitterDraw() {
       this.$router.push({ name: 'draws-twitter-edit', params: { organizationId: this.$route.params.organizationId } });
-    }
+    },
+    drawLotsOnTwitter(draw, id) {
+      this.loadingDraws.push(id);
+
+      //DrawsService.drawLotsOnTwitter(draw, id)
+    },
   }
 }
 </script>
 
 <style scoped lang="scss">
   .draws {
+    .md-tab {
+      padding: 0;
+    }
+
     .add-btn {
       position: absolute;
       bottom: 20px;

@@ -7,8 +7,8 @@
       </div>
 
       <div class="md-toolbar-section-end">
-        <app-github-menu url="https://github.com/GDG-Lille/meet-a-winner"/>
         <app-user-menu/>
+        <app-more-menu url-code="https://github.com/GDG-Lille/meet-a-winner"/>
       </div>
     </md-toolbar>
 
@@ -22,9 +22,9 @@
   import AppBrand from '@/components/app-brand/AppBrand';
   import AppUserMenu from '@/components/app-user-menu/AppUserMenu';
   import AppNotification from '@/components/app-notification/AppNotification';
-  import AppGithubMenu from '@/components/app-github-menu/AppGithubMenu';
+  import AppMoreMenu from "./components/app-more-menu/AppMoreMenu";
 
   export default {
-    components: {AppNotification, AppUserMenu, AppBrand, AppGithubMenu}
+    components: {AppMoreMenu, AppNotification, AppUserMenu, AppBrand}
   }
 </script>

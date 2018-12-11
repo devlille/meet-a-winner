@@ -7,6 +7,11 @@ class TweetsService {
       .then(result => result.data.tweets);
   }
 
+  findAllTweetersInRetweets(params) {
+    return firebase.functions().httpsCallable('findAllTweetersInRetweets')({ params: params })
+      .then(result => result.data.tweeters);
+  }
+
 }
 
 export default new TweetsService()

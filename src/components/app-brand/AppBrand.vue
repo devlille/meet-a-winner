@@ -39,7 +39,7 @@ export default {
         align-self: center;
 
         text-transform: uppercase;
-        color: black;
+        color: white;
         font-size: 20px;
         line-height: 20px;
       }
@@ -49,10 +49,10 @@ export default {
         grid-row: 2;
         align-self: center;
 
-        font-size: 11px;
+        font-size: 14px;
         line-height: 11px;
-        color: #424242;
-        font-family: 'Sedgwick Ave', cursive;
+        color: white;
+        font-family: 'Boogaloo', cursive;
       }
     }
   }
