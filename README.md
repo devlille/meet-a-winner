@@ -1,8 +1,10 @@
 # Meet a Winner // GDG Lille ([@GDGLille](https://twitter.com/GDGLille)) 
 
-[![CircleCI](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/master.svg?style=svg)](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/master) PROD - https://meet-a-winner.gdglille.org
+PROD - https://meet-a-winner.gdglille.org
+[![CircleCI](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/master.svg?style=svg)](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/master)
 
-[![CircleCI](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/develop.svg?style=svg)](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/develop) STAGING - https://meet-a-winner-staging.gdglille.org/
+STAGING - https://meet-a-winner-staging.gdglille.org
+[![CircleCI](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/develop.svg?style=svg)](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/develop) 
 
 ## Made with ...
 * [NPM](https://www.npmjs.com/) 
