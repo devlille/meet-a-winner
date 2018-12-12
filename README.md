@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/master.svg?style=svg)](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/master) PROD - https://meet-a-winner.gdglille.org
 
-[![CircleCI](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/develop.svg?style=svg)](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/develop) STAGING
+[![CircleCI](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/develop.svg?style=svg)](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/develop) STAGING - https://meet-a-winner-staging.gdglille.org/
 
 ## Made with ...
 * [NPM](https://www.npmjs.com/) 
