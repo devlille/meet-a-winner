@@ -2,8 +2,8 @@ import firebase from 'firebase/app'
 
 class TweetsService {
 
-  searchAll(params) {
-    return firebase.functions().httpsCallable('findAllTweets')({ params: params })
+  findAllTweetsByQuery(params) {
+    return firebase.functions().httpsCallable('findAllTweetsByQuery')({ params: params })
       .then(result => result.data.tweets);
   }
 

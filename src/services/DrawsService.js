@@ -6,12 +6,30 @@ class DrawsService {
     return firebase.firestore()
       .collection('draws')
       .where('organization', '==', organizationId)
-      .get()
-      .then(query => {
-        const draws = {}
-        query.forEach(doc => draws[doc.id] = doc.data())
-        return draws
-      })
+      .orderBy('createdAt', 'desc');
+  }
+
+  create(draw) {
+    draw.createdBy = firebase.auth().currentUser.uid;
+    draw.createdAt = new Date().getTime();
+
+    return firebase.firestore()
+      .collection('draws')
+      .add(draw);
+  }
+
+  update(draw, drawId) {
+    draw.modifiedBy = firebase.auth().currentUser.uid;
+    draw.modifiedAt = new Date().getTime();
+
+    return firebase.firestore()
+      .collection('draws')
+      .doc(drawId)
+      .set(draw);
+  }
+
+  findAndShuffleAllParticipantsForTwitterDraw(params) {
+    return firebase.functions().httpsCallable('findAndShuffleAllParticipantsForTwitterDraw')({ params: params });
   }
 
 }

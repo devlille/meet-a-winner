@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Winners from './views/winners/Winners.vue'
 import Draws from './views/draws/Draws.vue'
 import DrawsTwitterEdit from './views/draws/DrawsTwitterEdit.vue'
 import Organizations from './views/organizations/Organizations.vue'
@@ -46,10 +45,10 @@ const router = new Router({
       path: '/organizations/:organizationId/draws',
       name: 'draws',
       component: Draws,
-      beforeEnter: authenticating
+      beforeEnter: authenticating,
     },
     {
-      path: '/organizations/:organizationId/draws/twitter',
+      path: '/organizations/:organizationId/draws/twitter/edit',
       name: 'draws-twitter-edit',
       component: DrawsTwitterEdit,
       beforeEnter: authenticating

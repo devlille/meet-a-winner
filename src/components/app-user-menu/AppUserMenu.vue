@@ -1,6 +1,5 @@
 <template>
     <md-menu v-if="user !== null"
-             md-align-trigger
              class="app-user-menu">
         <md-button md-menu-trigger
                    class="md-icon-button"
@@ -11,11 +10,12 @@
                      :alt="user.displayName"
                      class="photo"/>
             </span>
-            <md-tooltip md-direction="left">{{ user.displayName }}</md-tooltip>
+            <md-tooltip>{{ user.displayName }}</md-tooltip>
         </md-button>
 
         <md-menu-content>
-            <md-menu-item @click="signOut">{{ $t('USER_MENU.SIGN_OUT') }}</md-menu-item>
+            <md-subheader>{{ user.displayName }}</md-subheader>
+            <md-menu-item @click="signOut">{{ $t('APP_USER_MENU.SIGN_OUT') }}</md-menu-item>
         </md-menu-content>
     </md-menu>
 </template>
