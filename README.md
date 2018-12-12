@@ -1,29 +1,22 @@
-# meet-a-winner
+# Meet a Winner // GDG Lille ([@GDGLille](https://twitter.com/GDGLille)) 
 
-## Project setup
-```
-npm install
-```
+[![CircleCI](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/master.svg?style=svg)](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/master) PROD - https://meet-a-winner.gdglille.org
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+[![CircleCI](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/develop.svg?style=svg)](https://circleci.com/gh/GDG-Lille/meet-a-winner/tree/develop) STAGING
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Made with ...
+* [NPM](https://www.npmjs.com/) 
+* [VueJS](https://vuejs.org/) avec [Vue Cli](https://cli.vuejs.org/)
+* [Firebase](https://firebase.google.com)
 
-### Run your tests
-```
-npm run test
-```
+## How to build for production ?
 
-### Lints and fixes files
-```
-npm run lint
-```
+Nothing to do, [Circle CI](https://circleci.com/gh/GDG-Lille) does it :) (@see .circleci/config.yml)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## How to run in local ?
+
+* Run `npm install` to install all dependancies.
+* Run `npm run serve` to deploy a dev server.
+
+## Contact via [Issues](https://github.com/GDG-Lille/meet-a-winner/issues)
+Helpful for **question**, **bug** and **contribution request**.
