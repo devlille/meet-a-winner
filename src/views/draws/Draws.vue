@@ -28,7 +28,6 @@
                       &nbsp;-&nbsp;
                       {{ $tc('DRAW.PARTICIPANTS', draw.participants.length, [draw.participants.length]) }}
                     </span>
-                    </span>
                   </span>
                 </span>
 
