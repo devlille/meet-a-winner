@@ -1,18 +1,11 @@
 import firebase from 'firebase/app'
-import TweetsService from "./TweetsService";
 
 class DrawsService {
 
   findAllForOrganization(organizationId) {
     return firebase.firestore()
       .collection('draws')
-      .where('organization', '==', organizationId)
-      .get()
-      .then(query => {
-        const draws = {};
-        query.forEach(doc => draws[doc.id] = doc.data());
-        return draws;
-      })
+      .where('organization', '==', organizationId);
   }
 
   create(draw) {
@@ -21,14 +14,11 @@ class DrawsService {
 
     return firebase.firestore()
       .collection('draws')
-      .add(draw)
+      .add(draw);
   }
 
-  drawLotsOnTwitter(draw, id) {
-    return TweetsService.findAllTweetersInRetweets()
-      .then(tweeters => {
-
-      });
+  findAndShuffleAllParticipantsForTwitterDraw(params) {
+    return firebase.functions().httpsCallable('findAndShuffleAllParticipantsForTwitterDraw')({ params: params });
   }
 
 }

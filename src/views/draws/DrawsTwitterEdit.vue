@@ -87,9 +87,7 @@ export default {
         status: 'OPENED',
         type: 'TWITTER',
         search: {
-          query: '',
-          withRetweets: false,
-          type: 'recent'
+          query: ''
         },
         tweetId: null,
       },
@@ -122,7 +120,7 @@ export default {
     searchTweets() {
       this.isSearching = true;
 
-      TweetsService.searchAll(this.draw.search)
+      TweetsService.findAllTweetsByQuery(this.draw.search)
         .then(tweets => {
           this.tweets = tweets;
           this.isSearching = false;

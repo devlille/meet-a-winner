@@ -15,7 +15,7 @@
 
         <md-menu-content>
             <md-subheader>{{ user.displayName }}</md-subheader>
-            <md-menu-item @click="signOut">{{ $t('USER_MENU.SIGN_OUT') }}</md-menu-item>
+            <md-menu-item @click="signOut">{{ $t('APP_USER_MENU.SIGN_OUT') }}</md-menu-item>
         </md-menu-content>
     </md-menu>
 </template>
