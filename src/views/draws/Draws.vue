@@ -9,10 +9,11 @@
                        md-mode="indeterminate">
       </md-progress-bar>
 
-      <md-card v-else>
+      <md-card v-else-if="Object.keys(draws).length > 0">
         <md-tabs>
           <!-- TWITTER -->
           <md-tab id="tab-draws-twitter"
+                  :md-disabled="Object.keys(drawsByType.twitter).length === 0"
                   :md-label="$t('DRAWS.TWITTER', [Object.keys(drawsByType.twitter).length])">
 
             <md-list class="md-dense md-double-line">
