@@ -24,14 +24,30 @@
                     <strong :style="{color: draw.status === 'OPENED' ? '#4caf50' : 'inherit'}">{{ $t(`DRAW.STATUS.${draw.status}`) }}</strong>
                     &nbsp;-&nbsp;
                     {{ $t('DRAW.CREATED_AT') }} {{ draw.createdAt | date('v') }}
+                    <span v-if="draw.participants !== undefined">
+                      &nbsp;-&nbsp;
+                      {{ $tc('DRAW.PARTICIPANTS', draw.participants.length, [draw.participants.length]) }}
+                    </span>
+                    </span>
                   </span>
                 </span>
 
-                <md-button class="md-list-action"
+                <md-button v-if="draw.status === 'OPENED'"
+                           class="md-list-action"
                            :disabled="loadingDraws.indexOf(id) !== -1"
-                           @click="drawLotsOnTwitter(draw, id)">
+                           @click="closeAndShuffle(id)">
                   <span v-if="loadingDraws.indexOf(id) !== -1">{{ $t('ACTIONS.IS_LOADING') }}</span>
-                  <span v-else>{{ $t('ACTIONS.DRAW_LOTS') }}</span>
+                  <span v-else>{{ $t('ACTIONS.CLOSE_AND_SHUFFLE') }}</span>
+                </md-button>
+                <md-button v-else-if="draw.status === 'CLOSED' && draw.participants.length > 0"
+                           class="md-list-action"
+                           @click="drawLots(draw, id)">
+                  {{ $t('ACTIONS.DRAW_LOTS') }}
+                </md-button>
+                <md-button v-else-if="draw.status === 'FINISHED'"
+                           class="md-list-action"
+                           @click="viewResults(draw, id)">
+                  {{ $t('ACTIONS.SEE') }}
                 </md-button>
               </md-list-item>
             </md-list>
@@ -40,6 +56,10 @@
         </md-tabs>
       </md-card>
     </div>
+
+    <draws-participants :draw="selectedDraw"
+                        :draw-id="selectedDrawId"
+                        @closed="clearSelectedDraw"/>
 
     <md-speed-dial class="add-btn">
       <md-speed-dial-target>
@@ -66,28 +86,32 @@
 import OrganizationsService from '@/services/OrganizationsService';
 import AppTitle from '@/components/app-title/AppTitle';
 import DrawsService from '@/services/DrawsService';
+import DrawsParticipants from "./components/draws-participants/DrawsParticipants";
 
 export default {
   name: 'draws',
-  components: {AppTitle},
+  components: {DrawsParticipants, AppTitle},
   data() {
     return {
       isLoading: false,
       organization: {},
       draws: {},
-      loadingDraws: []
+      loadingDraws: [],
+      selectedDrawId: null,
+      selectedDraw : {},
     }
   },
   computed: {
     drawsByType() {
       const drawsByType = {};
+      drawsByType.twitter = {};
 
-      drawsByType.twitter = Object.keys(this.draws)
+      Object.keys(this.draws)
         .filter(drawId => this.draws[drawId].type === 'TWITTER')
-        .map(drawId => this.draws[drawId]);
+        .forEach(drawId => drawsByType.twitter[drawId] = this.draws[drawId]);
 
       return drawsByType;
-    }
+    },
   },
   beforeRouteEnter(to, from, next) {
     OrganizationsService.findOneForCurrentUser(to.params.organizationId)
@@ -105,31 +129,47 @@ export default {
       this.isLoading = true;
 
       DrawsService.findAllForOrganization(this.$route.params.organizationId)
-        .then(draws => {
+        .onSnapshot(query => {
+          const draws = {};
+          query.forEach(doc => draws[doc.id] = doc.data());
+
           this.isLoading = false;
           this.draws = draws;
-        })
-        .catch(err => {
-          console.error(err);
-          this.isLoading = false;
-          this.$store.commit('notification/setNotification', {
-            active: true,
-            message: this.$t('DRAWS.ERROR'),
-            action: {
-              label: this.$t('ACTIONS.RETRY'),
-              handler: () => this.getDraws()
-            }
-          });
         });
     },
     addTwitterDraw() {
       this.$router.push({ name: 'draws-twitter-edit', params: { organizationId: this.$route.params.organizationId } });
     },
-    drawLotsOnTwitter(draw, id) {
-      this.loadingDraws.push(id);
+    closeAndShuffle(drawId) {
+      this.loadingDraws.push(drawId);
 
-      //DrawsService.drawLotsOnTwitter(draw, id)
+      DrawsService.findAndShuffleAllParticipantsForTwitterDraw({ drawId : drawId })
+        .then(() => this.loadingDraws.splice(this.loadingDraws.indexOf(drawId), 1))
+        .catch(err => {
+          console.error(err);
+          this.loadingDraws.splice(this.loadingDraws.indexOf(drawId), 1);
+          this.$store.commit('notification/setNotification', {
+            active: true,
+            message: this.$t('DRAWS.ERROR.DRAW_LOTS'),
+            action: {
+              label: this.$t('ACTIONS.RETRY'),
+              handler: () => this.findAndShuffleAllParticipantsForTwitterDraw(drawId)
+            }
+          });
+        })
     },
+    drawLots(draw, drawId) {
+      this.selectedDrawId = drawId;
+      this.selectedDraw = draw;
+    },
+    clearSelectedDraw() {
+      this.selectedDrawId = null;
+      this.selectedDraw = {};
+    },
+    viewResults(draw, drawId) {
+      this.selectedDrawId = drawId;
+      this.selectedDraw = draw;
+    }
   }
 }
 </script>
@@ -138,6 +178,11 @@ export default {
   .draws {
     .md-tab {
       padding: 0;
+    }
+
+    .md-list-item {
+      filter: blur(0px);
+      transition: all 300ms ease-in-out;
     }
 
     .add-btn {

@@ -1,5 +1,4 @@
 import firebase from 'firebase/app'
-import TweetsService from "./TweetsService";
 
 class DrawsService {
 
@@ -7,12 +6,7 @@ class DrawsService {
     return firebase.firestore()
       .collection('draws')
       .where('organization', '==', organizationId)
-      .get()
-      .then(query => {
-        const draws = {};
-        query.forEach(doc => draws[doc.id] = doc.data());
-        return draws;
-      })
+      .orderBy('createdAt', 'desc');
   }
 
   create(draw) {
@@ -21,14 +15,21 @@ class DrawsService {
 
     return firebase.firestore()
       .collection('draws')
-      .add(draw)
+      .add(draw);
   }
 
-  drawLotsOnTwitter(draw, id) {
-    return TweetsService.findAllTweetersInRetweets()
-      .then(tweeters => {
+  update(draw, drawId) {
+    draw.modifiedBy = firebase.auth().currentUser.uid;
+    draw.modifiedAt = new Date().getTime();
 
-      });
+    return firebase.firestore()
+      .collection('draws')
+      .doc(drawId)
+      .set(draw);
+  }
+
+  findAndShuffleAllParticipantsForTwitterDraw(params) {
+    return firebase.functions().httpsCallable('findAndShuffleAllParticipantsForTwitterDraw')({ params: params });
   }
 
 }
