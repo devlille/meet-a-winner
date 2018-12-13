@@ -54,6 +54,13 @@ export default {
         color: white;
         font-family: 'Boogaloo', cursive;
       }
+
+      @media screen and (max-width: 640px) {
+        strong, span {
+          display: none;
+        }
+      }
+
     }
   }
 </style>

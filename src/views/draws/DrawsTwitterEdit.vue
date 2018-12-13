@@ -27,7 +27,7 @@
                 <span class="md-helper-text">{{ $t('DRAW.SEARCH_PARAMS.QUERY.EXAMPLE') }}</span>
               </md-field>
               <md-button class="md-icon-button"
-                         :disabled="isSaving || isSearching"
+                         :disabled="isSaving || isSearching || $v.draw.search.query.$invalid"
                          @click="searchTweets">
                 <md-icon>search</md-icon>
               </md-button>
