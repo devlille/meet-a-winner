@@ -1,8 +1,8 @@
 <template>
     <div class="app-devfest">
-        <md-button v-if="dday <= 0"
+        <md-button v-if="dday >= 0"
                    @click="goToDevFestWebSite">
-            <strong>{{ $t('APP_DEVFEST.DDAY') }}{{ dday }}</strong>
+            <strong>{{ $t('APP_DEVFEST.DDAY') }}-{{ dday }}</strong>
             {{ $t('APP_DEVFEST.DEVFEST') }}
         </md-button>
     </div>
@@ -22,7 +22,7 @@
     computed: {
       dday() {
         const today = moment();
-        return moment(this.date).diff(today, 'days');
+        return moment(this.date).diff(today, 'days') + 1;
       }
     },
     methods: {

@@ -7,7 +7,7 @@
       </div>
 
       <div class="md-toolbar-section-end">
-        <app-dev-fest :date="'2018-06-14'"/>
+        <app-dev-fest :date="'2019-06-14'"/>
         <app-user-menu/>
         <app-more-menu url-code="https://github.com/GDG-Lille/meet-a-winner"/>
       </div>
