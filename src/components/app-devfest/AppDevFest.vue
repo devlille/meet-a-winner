@@ -1,6 +1,7 @@
 <template>
     <div class="app-devfest">
-        <md-button @click="goToDevFestWebSite">
+        <md-button v-if="dday <= 0"
+                   @click="goToDevFestWebSite">
             <strong>{{ $t('APP_DEVFEST.DDAY') }}{{ dday }}</strong>
             {{ $t('APP_DEVFEST.DEVFEST') }}
         </md-button>
